@@ -10,4 +10,8 @@ export class TodoService {
     const { data } = await api.get<ITodo[]>(`?title=${title}`);
     return data;
   }
+  public static async delete(id: string) {
+    const { data } = await api.delete<null>(`/${id}`);
+    return data;
+  }
 }
