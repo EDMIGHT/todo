@@ -47,4 +47,11 @@ export class TodoService {
       },
     });
   }
+  public static delete(id: Todo['id']): Promise<Todo> {
+    return prisma.todo.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

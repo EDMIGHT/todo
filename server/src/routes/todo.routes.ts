@@ -16,4 +16,6 @@ router.post('/', createTodoValidation, validation, TodoController.create);
 
 router.patch('/:id', updateTodoValidation, validation, TodoController.update);
 
+router.delete('/:id', TodoController.delete);
+
 export default router;

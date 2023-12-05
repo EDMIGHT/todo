@@ -57,4 +57,27 @@ export class TodoController {
       });
     }
   }
+  public static async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const existedTodo = await TodoService.getById(id);
+
+      if (!existedTodo) {
+        return CustomResponse.notFound(res, {
+          message: `todo with id = ${id} not found`,
+        });
+      }
+
+      await TodoService.delete(id);
+
+      return CustomResponse.ok(res, null);
+    } catch (error) {
+      return serverErrorResponse({
+        res,
+        message: 'error when deleting ToDo on the server side',
+        error,
+      });
+    }
+  }
 }
