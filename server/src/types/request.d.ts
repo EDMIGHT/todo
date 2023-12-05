@@ -1,5 +1,5 @@
 import { Todo } from '@prisma/client';
 
-export type IRequestAllTodo = {
+export type IRequestAllToDos = {
   title: Todo['title'];
 };
