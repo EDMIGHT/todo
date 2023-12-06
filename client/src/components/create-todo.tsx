@@ -7,14 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import { Overlay } from '@/components/ui/overlay';
-import { useOutsideClick } from '@/hooks/use-click-outside';
+import { useClickOutside } from '@/hooks/use-click-outside';
 import { QUERY_KEYS } from '@/lib/constants';
 import { handlerQueryValidationError } from '@/lib/handle-errors';
+import { checkTodoTitle } from '@/lib/validations/todo.validations';
 import { TodoService } from '@/services/todo.service';
 
 export const CreateTodo: FC = () => {
   const queryClient = useQueryClient();
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const [isCreateMode, setIsCreateMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -39,12 +40,12 @@ export const CreateTodo: FC = () => {
     },
   });
 
-  useOutsideClick(overlayRef, () => {
+  useClickOutside(modalRef, () => {
     reset();
   });
 
   const handleCreateTodo = () => {
-    if (inputValue.length < 2 || inputValue.length > 190) {
+    if (checkTodoTitle(inputValue)) {
       return toast.error('Validation error', {
         description: 'The title must be at least 2 characters and no more than 190',
       });
@@ -63,11 +64,14 @@ export const CreateTodo: FC = () => {
       >
         <Icons.plus className='w-7 h-7 group-hover:stroke-primary/70 transition' />
       </button>
+
       {isCreateMode &&
         createPortal(
-          <>
-            <Overlay ref={overlayRef} />
-            <div className='fixed left-1/2 rounded-md top-1/3 flex w-[90vw] font-poppins -translate-x-1/2 flex-col gap-2 sm:w-[500px] max-w-md space-y-2 bg-background p-6'>
+          <Overlay>
+            <div
+              ref={modalRef}
+              className='fixed left-1/2 rounded-md top-1/3 flex w-[90vw] font-poppins -translate-x-1/2 flex-col gap-2 sm:w-[500px] max-w-md space-y-2 bg-background p-6'
+            >
               <Input
                 value={inputValue}
                 onChange={(e) => {
@@ -86,7 +90,7 @@ export const CreateTodo: FC = () => {
                 Create
               </Button>
             </div>
-          </>,
+          </Overlay>,
           document.body
         )}
     </>

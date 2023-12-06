@@ -4,8 +4,10 @@ import { toast } from 'sonner';
 
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useClickOutside } from '@/hooks/use-click-outside';
 import { QUERY_KEYS } from '@/lib/constants';
 import { handlerQueryValidationError } from '@/lib/handle-errors';
+import { checkTodoTitle } from '@/lib/validations/todo.validations';
 import { TodoService } from '@/services/todo.service';
 import { ITodo } from '@/types/todo';
 
@@ -36,20 +38,14 @@ export const TodoText: FC<TodoTextProps> = ({ id, title }) => {
     },
   });
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (wrapperRef && wrapperRef.current && !e.composedPath().includes(wrapperRef.current)) {
-        setEditModeTextValue(title);
-        setIsEditMode(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [title]);
+  useClickOutside(
+    wrapperRef,
+    () => {
+      setEditModeTextValue(title);
+      setIsEditMode(false);
+    },
+    [title]
+  );
 
   useEffect(() => {
     if (isEditMode && inputRef && inputRef.current) {
@@ -66,7 +62,7 @@ export const TodoText: FC<TodoTextProps> = ({ id, title }) => {
       return;
     }
 
-    if (editModeTextValue.length < 2 || editModeTextValue.length > 190) {
+    if (checkTodoTitle(editModeTextValue)) {
       return toast.error('Validation error', {
         description: 'The title must be at least 2 characters and no more than 190',
       });
