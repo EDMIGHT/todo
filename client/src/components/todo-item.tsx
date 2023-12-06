@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
+import { TodoText } from '@/components/todo-text';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Icons } from '@/components/ui/icons';
 import { QUERY_KEYS } from '@/lib/constants';
-import { handlerQueryError } from '@/lib/handle-query-error';
+import { handlerQueryError } from '@/lib/handle-errors';
 import { TodoService } from '@/services/todo.service';
 import { ITodo } from '@/types/todo';
 
 export const TodoItem: FC<ITodo> = ({ id, title, status }) => {
-  const [isEditMode, setIsEditMode] = useState(false);
   const queryClient = useQueryClient();
 
   const { mutate: deleteTodo, isPending: isDeletePending } = useMutation({
@@ -46,7 +46,7 @@ export const TodoItem: FC<ITodo> = ({ id, title, status }) => {
 
   return (
     <li className='py-1 px-2 text-lg border-border border rounded-md font-medium flex gap-2 items-center justify-between'>
-      <div className='flex gap-2 md:gap-4 items-center'>
+      <div className='flex gap-2 md:gap-4 items-center w-full'>
         {isToggleCheckPending ? (
           <Icons.loading className='md:h-7 md:w-7 h-5 w-5 animate-spin' />
         ) : (
@@ -57,15 +57,7 @@ export const TodoItem: FC<ITodo> = ({ id, title, status }) => {
             }}
           />
         )}
-        <button
-          onClick={() => {
-            if (!isEditMode) {
-              setIsEditMode(true);
-            }
-          }}
-        >
-          {isEditMode ? <input /> : <h2 className='line-clamp-1'>{title}</h2>}
-        </button>
+        <TodoText id={id} title={title} />
       </div>
 
       <button
