@@ -51,6 +51,7 @@ export const TodoItem: FC<ITodo> = ({ id, title, status }) => {
           <Icons.loading className='md:h-7 md:w-7 h-5 w-5 animate-spin' />
         ) : (
           <Checkbox
+            id={id}
             checked={status}
             onChange={(e) => {
               toggleCheck(e.target.checked);

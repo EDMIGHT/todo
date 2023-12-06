@@ -1,6 +1,6 @@
+import { CreateTodo } from '@/components/create-todo';
 import { Search } from '@/components/search';
 import { TodosList } from '@/components/todos-list';
-import { Icons } from '@/components/ui/icons';
 
 const App = () => {
   return (
@@ -9,9 +9,7 @@ const App = () => {
         <h1 className='text-4xl md:text-5xl font-semibold text-center'>To Do</h1>
         <div className='flex gap-2 md:gap-3 px-1'>
           <Search />
-          <button>
-            <Icons.plus className='w-7 h-7' />
-          </button>
+          <CreateTodo />
         </div>
         <TodosList />
       </section>

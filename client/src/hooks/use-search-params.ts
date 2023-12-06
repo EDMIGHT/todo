@@ -8,7 +8,6 @@ export const useSearchParams = (key: string): HookResult => {
   useEffect(() => {
     const handleLocationChange = () => {
       const queryParams = new URLSearchParams(window.location.search);
-      console.log(queryParams);
       setValue(queryParams.get(key) || undefined);
     };
 

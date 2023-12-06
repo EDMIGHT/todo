@@ -1,13 +1,15 @@
 import { api } from '@/services/api';
 import { ITodo, ITodoCommonFields } from '@/types/todo';
 
-type IGetAllTodoArgs = {
-  title?: string;
-};
-
 export class TodoService {
-  public static async getAll({ title = '' }: IGetAllTodoArgs) {
+  public static async getAll(title: Partial<ITodo['title']> = '') {
     const { data } = await api.get<ITodo[]>(`?title=${title}`);
+    return data;
+  }
+  public static async create(title: ITodo['title']) {
+    const { data } = await api.post<ITodo>('/', {
+      title,
+    });
     return data;
   }
   public static async update(id: string, payload: Partial<ITodoCommonFields>) {

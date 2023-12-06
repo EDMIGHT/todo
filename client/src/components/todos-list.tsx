@@ -15,10 +15,10 @@ export const TodosList: FC = () => {
   const { data, isLoading, isSuccess, isError, refetch } = useQuery({
     queryKey: [QUERY_KEYS.todo, title],
     queryFn: async () => {
-      return await TodoService.getAll({ title });
+      return await TodoService.getAll(title);
     },
   });
-  console.log(title);
+
   return (
     <ul ref={parent} className='flex flex-col gap-2'>
       {isSuccess && data.map((todo) => <TodoItem key={todo.id} {...todo} />)}

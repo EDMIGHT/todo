@@ -62,15 +62,17 @@ export const TodoText: FC<TodoTextProps> = ({ id, title }) => {
   };
 
   const handleKeyDownOnInput = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+
     if (editModeTextValue.length < 2 || editModeTextValue.length > 190) {
       return toast.error('Validation error', {
         description: 'The title must be at least 2 characters and no more than 190',
       });
     }
 
-    if (e.key === 'Enter') {
-      updateTitle();
-    }
+    updateTitle();
   };
 
   return (
