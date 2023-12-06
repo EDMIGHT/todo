@@ -11,9 +11,9 @@ import { checkTodoTitle } from '@/lib/validations/todo.validations';
 import { TodoService } from '@/services/todo.service';
 import { ITodo } from '@/types/todo';
 
-type TodoTextProps = Pick<ITodo, 'id' | 'title'>;
+type TodoTextControlProps = Pick<ITodo, 'id' | 'title'>;
 
-export const TodoText: FC<TodoTextProps> = ({ id, title }) => {
+export const TodoTextControl: FC<TodoTextControlProps> = ({ id, title }) => {
   const queryClient = useQueryClient();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);

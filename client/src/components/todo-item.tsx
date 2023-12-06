@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FC } from 'react';
 
-import { TodoText } from '@/components/todo-text';
+import { TodoTextControl } from '@/components/todo-text-control';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Icons } from '@/components/ui/icons';
 import { QUERY_KEYS } from '@/lib/constants';
@@ -58,7 +58,7 @@ export const TodoItem: FC<ITodo> = ({ id, title, status }) => {
             }}
           />
         )}
-        <TodoText id={id} title={title} />
+        <TodoTextControl id={id} title={title} />
       </div>
 
       <button
