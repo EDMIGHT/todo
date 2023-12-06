@@ -18,7 +18,7 @@ export const TodosList: FC = () => {
       return await TodoService.getAll({ title });
     },
   });
-
+  console.log(title);
   return (
     <ul ref={parent} className='flex flex-col gap-2'>
       {isSuccess && data.map((todo) => <TodoItem key={todo.id} {...todo} />)}

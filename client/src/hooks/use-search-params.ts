@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-type HookResult = string | undefined
+type HookResult = string | undefined;
 
 export const useSearchParams = (key: string): HookResult => {
   const [value, setValue] = useState<HookResult>();
@@ -8,15 +8,16 @@ export const useSearchParams = (key: string): HookResult => {
   useEffect(() => {
     const handleLocationChange = () => {
       const queryParams = new URLSearchParams(window.location.search);
+      console.log(queryParams);
       setValue(queryParams.get(key) || undefined);
     };
 
     handleLocationChange();
 
-    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('searchparamschange', handleLocationChange);
 
     return () => {
-      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('searchparamschange', handleLocationChange);
     };
   }, [key]);
 
